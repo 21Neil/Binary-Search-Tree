@@ -36,19 +36,47 @@ function createTree(arr) {
     return root;
   }
 
-  function insert(data) {
-    insertNode(root, data);
-    function insertNode(node, data) {
-      if (node === null) return createNode(data);
-      if (data > node.data) node.right = insertNode(node.right, data);
-      if (data < node.data) node.left = insertNode(node.left, data);
+  function insert(value) {
+    insertNode(root, value);
+    function insertNode(node, value) {
+      if (node === null) return createNode(value);
+      if (value > node.data) node.right = insertNode(node.right, value);
+      if (value < node.data) node.left = insertNode(node.left, value);
       return node;
+    }
+  }
+
+  function deleteItem(value) {
+    deleteNode(root, value);
+    function deleteNode(root, value) {
+      console.log(root, value)
+      if (root === null) return root
+      if (value > root.data) root.right = deleteNode(root.right, value);
+      if (value < root.data) root.left = deleteNode(root.left, value);
+      if (value === root.data) {
+        if (root.left === null) return root.right;
+        if (root.right === null) return root.left;
+        if (root.right !== null && root.left !== null) {
+          const succ = getSuccessor(root);
+          root.data = succ.data
+          root.right = deleteNode(root.right, succ.data)
+        }
+      }
+      return root;
+    }
+    function getSuccessor(root) {
+      let succ = root.right;
+      while (succ.left !== null) {
+        succ = succ.left;
+      }
+      return succ;
     }
   }
 
   return {
     root,
     insert,
+    deleteItem,
   };
 }
 
@@ -66,7 +94,6 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const test = createTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-const test2 = createTree([1, 2, 3]);
-test2.insert(4);
-prettyPrint(test.root);
-console.log(test2.root);
+test.insert(100)
+test.deleteItem(9)
+prettyPrint(test.root)
