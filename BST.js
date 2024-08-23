@@ -72,10 +72,23 @@ function createTree(arr) {
     }
   }
 
+  function find(value) {
+    const target = findNode(root, value)
+    function findNode(node, value) {
+      if(node === null) return
+      if(value > node.data) return findNode(node.right, value)
+      if(value < node.data) return findNode(node.left, value)
+      if(value === node.data) return node
+      return
+    }
+    return target
+  }
+
   return {
     root,
     insert,
     deleteItem,
+    find,
   };
 }
 
@@ -97,3 +110,6 @@ prettyPrint(test.root)
 test.insert(100);
 test.deleteItem(8);
 prettyPrint(test.root);
+console.log(test.find(100))
+console.log(test.find(101))
+
