@@ -11,14 +11,14 @@ function createTree(arr) {
 
   function sortArr(arr) {
     const noDuplicates = [...new Set(arr)];
-    const sortedArr = noDuplicates.sort();
+    const sortedArr = noDuplicates.sort((a, b) => a - b);
     return sortedArr;
   }
 
   function buildTree(arr) {
     const sortedArr = sortArr(arr);
     const length = sortedArr.length;
-    const root = arrToBST(arr, 0, length - 1);
+    const root = arrToBST(sortedArr, 0, length - 1);
 
     function arrToBST(arr, start, end) {
       if (start > end) return null;
@@ -48,9 +48,8 @@ function createTree(arr) {
 
   function deleteItem(value) {
     deleteNode(root, value);
-    function deleteNode(root, value) {
-      console.log(root, value)
-      if (root === null) return root
+    function deleteNode(root, value) {;
+      if (root === null) return root;
       if (value > root.data) root.right = deleteNode(root.right, value);
       if (value < root.data) root.left = deleteNode(root.left, value);
       if (value === root.data) {
@@ -58,8 +57,8 @@ function createTree(arr) {
         if (root.right === null) return root.left;
         if (root.right !== null && root.left !== null) {
           const succ = getSuccessor(root);
-          root.data = succ.data
-          root.right = deleteNode(root.right, succ.data)
+          root.data = succ.data;
+          root.right = deleteNode(root.right, succ.data);
         }
       }
       return root;
@@ -94,6 +93,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const test = createTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-test.insert(100)
-test.deleteItem(9)
 prettyPrint(test.root)
+test.insert(100);
+test.deleteItem(8);
+prettyPrint(test.root);
