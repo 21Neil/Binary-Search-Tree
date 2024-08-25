@@ -1,0 +1,12 @@
+{
+  "name": "binary-search-tree",
+  "version": "1.0.0",
+  "main": "BST.js",
+  "type": "module",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "author": "21Neil",
+  "license": "ISC",
+  "description": ""
+}
