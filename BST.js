@@ -48,7 +48,7 @@ function createTree(arr) {
 
   function deleteItem(value) {
     deleteNode(root, value);
-    function deleteNode(root, value) {;
+    function deleteNode(root, value) {
       if (root === null) return root;
       if (value > root.data) root.right = deleteNode(root.right, value);
       if (value < root.data) root.left = deleteNode(root.left, value);
@@ -73,15 +73,40 @@ function createTree(arr) {
   }
 
   function find(value) {
-    const target = findNode(root, value)
+    const target = findNode(root, value);
     function findNode(node, value) {
-      if(node === null) return
-      if(value > node.data) return findNode(node.right, value)
-      if(value < node.data) return findNode(node.left, value)
-      if(value === node.data) return node
-      return
+      if (node === null) return;
+      if (value > node.data) return findNode(node.right, value);
+      if (value < node.data) return findNode(node.left, value);
+      if (value === node.data) return node;
+      return;
     }
-    return target
+    return target;
+  }
+
+  function levelOrderRecursion(callback) {
+    if (typeof callback !== 'function') throw new Error('callback is require');
+    const q = [root]
+    recursion(q);
+    function recursion(q) {
+      if (q.length === 0) return;
+      const curr = q.shift()
+      if (curr.left !== null) q.push(curr.left);
+      if (curr.right !== null) q.push(curr.right);
+      callback(curr.data)
+      recursion(q)
+    }
+  }
+
+  function levelOrderIteration(callback) {
+    if (typeof callback !== 'function') throw new Error('callback is require');
+    const q = [root];
+    while(q.length !== 0) {
+      const curr = q.shift()
+      if(curr.left !== null) q.push(curr.left)
+      if(curr.right !== null) q.push(curr.right)
+      callback(curr.data)
+    }
   }
 
   return {
@@ -89,6 +114,8 @@ function createTree(arr) {
     insert,
     deleteItem,
     find,
+    levelOrderRecursion,
+    levelOrderIteration,
   };
 }
 
@@ -106,10 +133,11 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 };
 
 const test = createTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-prettyPrint(test.root)
+prettyPrint(test.root);
 test.insert(100);
 test.deleteItem(8);
 prettyPrint(test.root);
-console.log(test.find(100))
-console.log(test.find(101))
-
+console.log(test.find(100));
+console.log(test.find(101));
+test.levelOrderRecursion(x => console.log(x));
+test.levelOrderIteration(x => console.log(x))
