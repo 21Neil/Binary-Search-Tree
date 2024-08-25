@@ -7,7 +7,7 @@ function createNode(value) {
 }
 
 function createTree(arr) {
-  const root = buildTree(arr);
+  let root = buildTree(arr);
 
   function sortArr(arr) {
     const noDuplicates = [...new Set(arr)];
@@ -63,6 +63,7 @@ function createTree(arr) {
       }
       return root;
     }
+
     function getSuccessor(root) {
       let succ = root.right;
       while (succ.left !== null) {
@@ -212,6 +213,17 @@ function createTree(arr) {
     return isBalance;
   }
 
+  function reBalance() {
+    if (isBalance()) return console.log('Tree is already Balance')
+    const arr = []
+    inOrder( data => arr.push(data))
+    const newRoot = buildTree(arr)
+    root.data = newRoot.data
+    root.right = newRoot.right
+    root.left = newRoot.left
+    return
+  }
+
   return {
     root,
     insert,
@@ -225,6 +237,7 @@ function createTree(arr) {
     height,
     depth,
     isBalance,
+    reBalance,
   };
 }
 
@@ -269,3 +282,7 @@ test.deleteItem(101)
 console.log('delete 101 isBalance', test.isBalance())
 test.insert(101)
 console.log('insert 101')
+prettyPrint(test.root)
+test.reBalance()
+console.log('balanced tree')
+prettyPrint(test.root)
