@@ -86,28 +86,65 @@ function createTree(arr) {
 
   function levelOrderRecursion(callback) {
     if (typeof callback !== 'function') throw new Error('callback is require');
-    const q = [root]
+    const q = [root];
     recursion(q);
     function recursion(q) {
       if (q.length === 0) return;
-      const curr = q.shift()
+      const curr = q.shift();
       if (curr.left !== null) q.push(curr.left);
       if (curr.right !== null) q.push(curr.right);
-      callback(curr.data)
-      recursion(q)
+      callback(curr.data);
+      recursion(q);
+      return;
     }
+    return;
   }
 
   function levelOrderIteration(callback) {
     if (typeof callback !== 'function') throw new Error('callback is require');
     const q = [root];
-    while(q.length !== 0) {
-      const curr = q.shift()
-      if(curr.left !== null) q.push(curr.left)
-      if(curr.right !== null) q.push(curr.right)
-      callback(curr.data)
+    while (q.length !== 0) {
+      const curr = q.shift();
+      if (curr.left !== null) q.push(curr.left);
+      if (curr.right !== null) q.push(curr.right);
+      callback(curr.data);
+    }
+    return;
+  }
+
+  function inOrder(callback) {
+    if (typeof callback !== 'function') throw new Error('callback is require');
+    recursion(root);
+    function recursion(node) {
+      if (node.left !== null) recursion(node.left);
+      callback(node.data);
+      if (node.right !== null) recursion(node.right);
+      return;
     }
   }
+
+  function preOrder(callback) {
+    if (typeof callback !== 'function') throw new Error('callback is require');
+    recursion(root);
+    function recursion(node) {
+      callback(node.data);
+      if (node.left !== null) recursion(node.left);
+      if (node.right !== null) recursion(node.right);
+      return;
+    }
+  }
+
+  function postOrder(callback) {
+    if (typeof callback !== 'function') throw new Error('callback is require');
+    recursion(root);
+    function recursion(node) {
+      if (node.left !== null) recursion(node.left);
+      if (node.right !== null) recursion(node.right);
+      callback(node.data);
+      return;
+    }
+  }
+  
 
   return {
     root,
@@ -116,6 +153,9 @@ function createTree(arr) {
     find,
     levelOrderRecursion,
     levelOrderIteration,
+    inOrder,
+    preOrder,
+    postOrder,
   };
 }
 
@@ -140,4 +180,7 @@ prettyPrint(test.root);
 console.log(test.find(100));
 console.log(test.find(101));
 test.levelOrderRecursion(x => console.log(x));
-test.levelOrderIteration(x => console.log(x))
+test.levelOrderIteration(x => console.log(x));
+test.inOrder(x => console.log(x));
+test.preOrder(x => console.log(x))
+test.postOrder(x => console.log(x))
