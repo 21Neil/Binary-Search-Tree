@@ -144,7 +144,52 @@ function createTree(arr) {
       return;
     }
   }
-  
+
+  function height(node) {
+    if (node === null) return 0;
+    let length = 1;
+    let temp = 1;
+    recursion(node);
+    function recursion(node) {
+      if (temp > length) length = temp;
+      if (node.left !== null) {
+        temp++;
+        recursion(node.left);
+        temp--;
+      }
+      if (node.right !== null) {
+        temp++;
+        recursion(node.right);
+        temp--;
+      }
+      return;
+    }
+    return length;
+  }
+
+  function depth(node) {
+    if (node === null) return 0;
+    let depth = 1;
+    let temp = 1;
+    recursion(root);
+    function recursion(root) {
+      if (root.data === node.data) {
+        depth = temp;
+        return;
+      }
+      if (root.left !== null) {
+        temp++;
+        recursion(root.left);
+        temp--;
+      }
+      if (root.right !== null) {
+        temp++;
+        recursion(root.right);
+        temp--;
+      }
+    }
+    return depth;
+  }
 
   return {
     root,
@@ -156,6 +201,8 @@ function createTree(arr) {
     inOrder,
     preOrder,
     postOrder,
+    height,
+    depth,
   };
 }
 
@@ -176,11 +223,22 @@ const test = createTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(test.root);
 test.insert(100);
 test.deleteItem(8);
+console.log('inset 100 and delete 8');
 prettyPrint(test.root);
-console.log(test.find(100));
-console.log(test.find(101));
+console.log('find 100', test.find(100));
+console.log('find 101', test.find(101));
+console.log('level order(recursion)');
 test.levelOrderRecursion(x => console.log(x));
+console.log('level order(iteration)');
 test.levelOrderIteration(x => console.log(x));
+console.log('inOrder');
 test.inOrder(x => console.log(x));
-test.preOrder(x => console.log(x))
-test.postOrder(x => console.log(x))
+console.log('preOrder');
+test.preOrder(x => console.log(x));
+console.log('postOrder');
+test.postOrder(x => console.log(x));
+test.insert(101);
+console.log('inset 101');
+prettyPrint(test.root);
+console.log('height', test.height(test.root.right.right));
+console.log('depth', test.depth(test.root.right.right));
