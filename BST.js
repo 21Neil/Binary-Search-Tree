@@ -193,35 +193,35 @@ function createTree(arr) {
   }
 
   function isBalance() {
-    let isBalance = true
-    recursion(root)
+    let isBalance = true;
+    recursion(root);
     function recursion(node) {
-      if(node === null) return
+      if (node === null) return;
       let leftHeight = height(node.left);
       let rightHeight = height(node.right);
 
       if (Math.abs(leftHeight - rightHeight) > 1) {
-        isBalance = false
-        return
+        isBalance = false;
+        return;
       }
 
-      recursion(node.left)
-      recursion(node.right)
-      return
+      recursion(node.left);
+      recursion(node.right);
+      return;
     }
-    
+
     return isBalance;
   }
 
   function reBalance() {
-    if (isBalance()) return console.log('Tree is already Balance')
-    const arr = []
-    inOrder( data => arr.push(data))
-    const newRoot = buildTree(arr)
-    root.data = newRoot.data
-    root.right = newRoot.right
-    root.left = newRoot.left
-    return
+    if (isBalance()) return console.log('Tree is already Balance');
+    const arr = [];
+    inOrder(data => arr.push(data));
+    const newRoot = buildTree(arr);
+    root.data = newRoot.data;
+    root.right = newRoot.right;
+    root.left = newRoot.left;
+    return;
   }
 
   return {
@@ -254,35 +254,4 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 };
 
-const test = createTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-prettyPrint(test.root);
-test.insert(100);
-test.deleteItem(8);
-console.log('inset 100 and delete 8');
-prettyPrint(test.root);
-console.log('find 100', test.find(100));
-console.log('find 101', test.find(101));
-console.log('level order(recursion)');
-test.levelOrderRecursion(x => console.log(x));
-console.log('level order(iteration)');
-test.levelOrderIteration(x => console.log(x));
-console.log('inOrder');
-test.inOrder(x => console.log(x));
-console.log('preOrder');
-test.preOrder(x => console.log(x));
-console.log('postOrder');
-test.postOrder(x => console.log(x));
-test.insert(101);
-console.log('inset 101');
-prettyPrint(test.root);
-console.log('height', test.height(test.root.right.right));
-console.log('depth', test.depth(test.root.right.right));
-console.log('isBalance', test.isBalance())
-test.deleteItem(101)
-console.log('delete 101 isBalance', test.isBalance())
-test.insert(101)
-console.log('insert 101')
-prettyPrint(test.root)
-test.reBalance()
-console.log('balanced tree')
-prettyPrint(test.root)
+export { createTree, prettyPrint };
