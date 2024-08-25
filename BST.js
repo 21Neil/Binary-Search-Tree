@@ -191,6 +191,27 @@ function createTree(arr) {
     return depth;
   }
 
+  function isBalance() {
+    let isBalance = true
+    recursion(root)
+    function recursion(node) {
+      if(node === null) return
+      let leftHeight = height(node.left);
+      let rightHeight = height(node.right);
+
+      if (Math.abs(leftHeight - rightHeight) > 1) {
+        isBalance = false
+        return
+      }
+
+      recursion(node.left)
+      recursion(node.right)
+      return
+    }
+    
+    return isBalance;
+  }
+
   return {
     root,
     insert,
@@ -203,6 +224,7 @@ function createTree(arr) {
     postOrder,
     height,
     depth,
+    isBalance,
   };
 }
 
@@ -242,3 +264,8 @@ console.log('inset 101');
 prettyPrint(test.root);
 console.log('height', test.height(test.root.right.right));
 console.log('depth', test.depth(test.root.right.right));
+console.log('isBalance', test.isBalance())
+test.deleteItem(101)
+console.log('delete 101 isBalance', test.isBalance())
+test.insert(101)
+console.log('insert 101')
